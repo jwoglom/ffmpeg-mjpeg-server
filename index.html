@@ -29,7 +29,7 @@ update = function() {
 }
 
 triggerUpdate = function() {
-  debounce(update, 500);
+  debounce(update, 500)();
 }
 
 document.onreadystatechange = function() {
