@@ -6,7 +6,10 @@ COPY mod_cgi.conf /etc/lighttpd/mod_cgi.conf
 RUN ["sh", "-c", "echo -e 'include \"mod_cgi.conf\"' >> /etc/lighttpd/lighttpd.conf"]
 RUN mkdir -p /var/www/cgi-bin
 
-COPY stream.template /
-COPY build_stream.sh /
-RUN chmod +x /build_stream.sh
-CMD ["sh", "-c", "/build_stream.sh > /var/www/cgi-bin/stream && chmod +x /var/www/cgi-bin/stream &&/usr/local/bin/start.sh"]
+COPY stream /var/www/cgi-bin/
+RUN chmod +x /var/www/cgi-bin/stream
+
+# Any optional environment variables must be set here,
+# otherwise lighttpd will panic on startup because the
+# environment variables don't exist.
+CMD ["sh", "-c", "FFMPEG_INPUT_OPTIONS=$FFMPEG_INPUT_OPTIONS FFMPEG_OUTPUT_OPTIONS=$FFMPEG_OUTPUT_OPTIONS start.sh"]

@@ -1,0 +1,22 @@
+#!/bin/sh
+
+if [[ "$STREAM_URL" == "" ]]; then
+  echo "No STREAM_URL provided";
+  exit 1;
+fi
+
+if [[ "$FFMPEG_INPUT_OPTIONS" == "" ]]; then
+  FFMPEG_INPUT_OPTIONS="-re"
+fi
+
+if [[ "$FFMPEG_OUTPUT_OPTIONS" == "" ]]; then
+  FFMPEG_OUTPUT_OPTIONS="-preset veryfast -c:v mjpeg -q:v 1 -f mpjpeg -an"
+fi
+
+echo "Using FFMPEG_INPUT_OPTIONS=$FFMPEG_INPUT_OPTIONS" >&2;
+echo "Using FFMPEG_OUTPUT_OPTIONS=$FFMPEG_OUTPUT_OPTIONS" >&2;
+
+echo "Content-Type: multipart/x-mixed-replace;boundary=ffmpeg"
+echo "Cache-Control: no-cache"
+echo ""
+ffmpeg $FFMPEG_INPUT_OPTIONS -i "$STREAM_URL" $FFMPEG_OUTPUT_OPTIONS -
