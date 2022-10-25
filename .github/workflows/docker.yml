@@ -33,4 +33,4 @@ jobs:
           docker buildx build \
             --platform linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6 \
             --push . \
-            -t jwoglom/ffmpeg-mjpeg-server:latest -t jwoglom/ffmpeg-mjpeg-server:v1.0.3
+            -t jwoglom/ffmpeg-mjpeg-server:latest -t jwoglom/ffmpeg-mjpeg-server:v1.0.4

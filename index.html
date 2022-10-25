@@ -44,8 +44,10 @@ if (location.search.indexOf('reload_after=') != -1) {
   setInterval(function() { update(); }, parseInt(interval) * 1000);
 }
 
-// Safari iOS bug with iframes
-document.addEventListener('touchstart', {});
+document.addEventListener('click', update);
+document.addEventListener('touchstart', update);
+img.addEventListener('click', update);
+img.addEventListener('touchstart', update);
 </script>
 </body>
 </html>
