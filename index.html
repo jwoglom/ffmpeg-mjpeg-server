@@ -10,9 +10,17 @@
 <img src="/cgi-bin/stream" alt="MJPEG Stream" width="100%" height="100%" onerror="triggerUpdate()" onabort="triggerUpdate()" onclick="update()" />
 <script type="text/javascript">
 var img = document.getElementsByTagName('img')[0];
-var lastUpdate = new Date();
-var updates = 0;
-var t = null;
+
+debounce = function(fn, delay) {
+  var timer = null;
+  return function () {
+    var context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      fn.apply(context, args);
+    }, delay);
+  };
+}
 
 update = function() {
   lastUpdate = new Date();
@@ -20,9 +28,7 @@ update = function() {
 }
 
 triggerUpdate = function() {
-  updates++;
-  if (t != null) clearTimeout(t);
-  t = setTimeout(update, 1000);
+  debounce(update, 500);
 }
 
 document.onreadystatechange = function() {
@@ -31,6 +37,9 @@ document.onreadystatechange = function() {
     triggerUpdate();
   }
 }
+
+// Safari iOS bug with iframes
+document.addEventListener('touchstart', {});
 </script>
 </body>
 </html>

@@ -10,7 +10,7 @@ if [[ "$FFMPEG_INPUT_OPTIONS" == "" ]]; then
 fi
 
 if [[ "$FFMPEG_OUTPUT_OPTIONS" == "" ]]; then
-  FFMPEG_OUTPUT_OPTIONS="-preset veryfast -c:v mjpeg -q:v 1 -f mpjpeg -an"
+  FFMPEG_OUTPUT_OPTIONS="-preset ultrafast -c:v mjpeg -q:v 1 -f mpjpeg -an"
 fi
 
 echo "Using FFMPEG_INPUT_OPTIONS=$FFMPEG_INPUT_OPTIONS" >&2;
