@@ -20,13 +20,13 @@ http://localhost:8888 will serve a basic HTML page, with an `<img>` tag and some
 
 http://localhost:8888/cgi-bin/stream will return the raw MJPEG output.
 
-A more advanced example:
+A more advanced example, which forces using TCP for the RTSP input stream, and limits the output FPS of the MJPEG stream to 5fps to save bandwidth and some processing power:
 ```bash
 docker run -it \
     -p 8888:80/tcp \
     -e STREAM_URL=rtsp://192.168.x.x:8554/stream.m3u8 \
     -e FFMPEG_INPUT_OPTIONS="-rtsp_transport tcp -re" \
-    -e FFMPEG_OUTPUT_OPTIONS="-c:v mjpeg -q:v 1 -f mpjpeg" \
+    -e FFMPEG_OUTPUT_OPTIONS="-preset ultrafast -c:v mjpeg -q:v 1 -f mpjpeg -an -r 5" \
     jwoglom/ffmpeg-mjpeg-server 
 ```
 
