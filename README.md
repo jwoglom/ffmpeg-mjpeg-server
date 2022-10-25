@@ -10,7 +10,7 @@ a video stream on older browsers and devices.
 
 Basic invocation, launching a server listening on port 8888:
 ```bash
-docker run \
+docker run -it \
     -p 8888:80/tcp \
     -e STREAM_URL=rtsp://192.168.x.x:8554/stream.m3u8 \
     jwoglom/ffmpeg-mjpeg-server 
@@ -22,7 +22,7 @@ http://localhost:8888/cgi-bin/stream will return the raw MJPEG output.
 
 A more advanced example:
 ```bash
-docker run \
+docker run -it \
     -p 8888:80/tcp \
     -e STREAM_URL=rtsp://192.168.x.x:8554/stream.m3u8 \
     -e FFMPEG_INPUT_OPTIONS="-rtsp_transport tcp -re" \
@@ -51,3 +51,14 @@ ffmpeg is invoked with `ffmpeg $FFMPEG_INPUT_OPTIONS -i "$STREAM_URL" $FFMPEG_OU
 `-f mpjpeg` configures ffmpeg to output in [mjpeg format](https://en.wikipedia.org/wiki/Motion_JPEG).
 
 `-an` disables audio.
+
+
+## Troubleshooting
+
+If you receive an error launching a container involving `/dev/pts/0`:
+
+```
+hmod: /dev/pts/0: No such file or directory
+```
+
+Ensure that you are running docker with the `-t` option, since [due to this bug lighttpd-docker requires a TTY to run](https://github.com/spujadas/lighttpd-docker/issues/8).
